@@ -1,0 +1,25 @@
+{
+  "name": "trackable-object",
+  "version": "1.0.0",
+  "description": "track object changes deeply",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mahmoudshahin1111/trackable-object.git"
+  },
+  "keywords": [
+    "object",
+    "clone",
+    "track-object",
+    "object-changed"
+  ],
+  "author": "codexline",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mahmoudshahin1111/trackable-object/issues"
+  },
+  "homepage": "https://github.com/mahmoudshahin1111/trackable-object#readme"
+}
