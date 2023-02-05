@@ -2,10 +2,13 @@
   "name": "trackable-object",
   "version": "1.0.0",
   "description": "track object changes deeply",
-  "main": "index.js",
+
+  "source": "src/index.js",
+  "main": "dist/main.js",
   "scripts": {
-    "serve":"node src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "parcel watch",
+    "build": "parcel build",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -22,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/mahmoudshahin1111/trackable-object/issues"
   },
-  "homepage": "https://github.com/mahmoudshahin1111/trackable-object#readme"
+  "homepage": "https://github.com/mahmoudshahin1111/trackable-object#readme",
+  "devDependencies": {
+    "jest": "^29.4.1"
+  }
 }
