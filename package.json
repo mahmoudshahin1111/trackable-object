@@ -4,6 +4,7 @@
   "description": "track object changes deeply",
   "main": "index.js",
   "scripts": {
+    "serve":"node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
