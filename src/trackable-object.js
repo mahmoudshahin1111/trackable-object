@@ -1,16 +1,20 @@
-const { TRACKABLE_PREFIX } = require("./common");
+const { TRACKABLE_PREFIX, SHADOW_OBJECT_KEY } = require("./common");
+
+function createShadowObject(config) {
+  const shadowObject = {};
+  shadowObject.propertyPath = config?.propertyPath;
+  shadowObject.changes = config?.changes;
+  if (!shadowObject.changes) {
+    shadowObject.changes = new Map();
+  }
+  return shadowObject;
+}
 
 function TrackableObject(obj, config) {
-  function Config(config) {
-    this.propertyPath = config?.propertyPath;
-    this.changes = config?.changes;
-  }
-  const trackableObjectConfig = new Config(config);
-  let basePropertyPath = trackableObjectConfig.propertyPath;
-  let changes = trackableObjectConfig.changes;
-  if (!changes) {
-    changes = new Map();
-  }
+  const shadowObject = createShadowObject(config);
+
+  let basePropertyPath = shadowObject.propertyPath;
+  let changes = shadowObject.changes;
 
   const _objShadow = JSON.parse(JSON.stringify(obj));
   function getObjPropertyByPath(_obj, propertyPath) {
@@ -31,7 +35,33 @@ function TrackableObject(obj, config) {
     if (propertyPath) {
       propertyValue = getObjPropertyByPath(_obj, propertyPath);
     }
+    let value = JSON.parse(JSON.stringify(propertyValue));
+    const pathProperties = String(propertyPath).split(".");
 
+    let setter = (newValue) => {
+      const currentValue = getObjPropertyByPath(_objShadow, propertyPath);
+      const fullPropertyPath = basePropertyPath
+        ? `${basePropertyPath}.${propertyPath}`
+        : propertyPath;
+      if (currentValue === newValue) {
+        changes.delete(fullPropertyPath);
+      } else {
+        changes.set(fullPropertyPath, JSON.parse(JSON.stringify(newValue)));
+      }
+      const clonedValue = JSON.parse(JSON.stringify(newValue));
+      if (typeof clonedValue === "object") {
+        value = TrackableObject(clonedValue, {
+          changes,
+          propertyPath: fullPropertyPath,
+        });
+      } else {
+        value = clonedValue;
+      }
+    };
+
+    let getter = () => {
+      return value;
+    };
     if (typeof propertyValue === "object") {
       Object.keys(propertyValue).forEach((_key) => {
         overrideSetterAndGetter(
@@ -40,33 +70,6 @@ function TrackableObject(obj, config) {
         );
       });
     } else {
-      let value = JSON.parse(JSON.stringify(propertyValue));
-      const pathProperties = String(propertyPath).split(".");
-
-      let setter = (newValue) => {
-        const currentValue = getObjPropertyByPath(_objShadow, propertyPath);
-        const fullPropertyPath = basePropertyPath
-          ? `${basePropertyPath}.${propertyPath}`
-          : propertyPath;
-        if (currentValue === newValue) {
-          changes.delete(fullPropertyPath);
-        } else {
-          changes.set(fullPropertyPath, JSON.parse(JSON.stringify(newValue)));
-        }
-        const clonedValue = JSON.parse(JSON.stringify(newValue));
-        if (typeof clonedValue === "object") {
-          value = TrackableObject(clonedValue, {
-            changes,
-            propertyPath: fullPropertyPath,
-          });
-        } else {
-          value = clonedValue;
-        }
-      };
-
-      let getter = () => {
-        return value;
-      };
       if (pathProperties.length > 1) {
         const lastProperty = pathProperties[pathProperties.length - 1];
 
@@ -88,16 +91,21 @@ function TrackableObject(obj, config) {
     }
   }
 
-  function defineTrackableProperties(_obj) {
+  function defineShadowObject(_obj) {
+    Object.defineProperty(_obj, SHADOW_OBJECT_KEY, {
+      value: () => shadowObject,
+      writable: false,
+      enumerable: false,
+    });
     Object.defineProperty(_obj, `${TRACKABLE_PREFIX}changes`, {
-      value: ()=>changes,
+      value: () => shadowObject.changes,
       writable: false,
       enumerable: false,
     });
   }
 
   overrideSetterAndGetter(obj);
-  defineTrackableProperties(obj);
+  defineShadowObject(obj);
 
   return obj;
 }
