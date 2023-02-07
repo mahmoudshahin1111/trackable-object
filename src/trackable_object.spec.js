@@ -48,19 +48,31 @@ describe("TrackableObject", () => {
 
   it("should trace that property has an object value", () => {
     const trackablePerson = TrackableObject(person);
+    console.log(trackablePerson);
     trackablePerson.child = { name: "child 4" };
     // expect it tracked the changes.
-    expect(trackablePerson.t_changes().get("child")).toEqual({ name: "child 4" });
+    expect(trackablePerson.t_changes().get("child")).toEqual({
+      name: "child 4",
+    });
   });
 
   it("should clear that property has an object value if it didn't changed", () => {
     const trackablePerson = TrackableObject(person);
-    const oldObject =  trackablePerson.child;
+    const oldObject = trackablePerson.child;
     trackablePerson.child = { name: "child 4" };
     trackablePerson.child = oldObject;
+    console.log(trackablePerson.t_changes());
     // expect it tracked the changes.
+    expect(trackablePerson.child).toEqual(oldObject);
     expect(trackablePerson.t_changes().size).toBe(0);
   });
 
-  
+  it("should the changes keys to be equals the property path", () => {
+    const trackablePerson = TrackableObject(person);
+    trackablePerson.child = { name: "child 4" };
+    // expect the changes property to be on properly format
+    expect(trackablePerson.t_changes().has("child")).toBe(true);
+    trackablePerson.child.name = "child 101";
+    expect(trackablePerson.t_changes().has("child.name")).toBe(true);
+  });
 });

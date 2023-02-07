@@ -16,7 +16,7 @@ function TrackableObject(obj, config) {
   let basePropertyPath = shadowObject.propertyPath;
   let changes = shadowObject.changes;
 
-  const _objShadow = JSON.parse(JSON.stringify(obj));
+  const _objShadow = cloneDeep(obj);
   function getObjPropertyByPath(_obj, propertyPath) {
     let propertyValue = _obj;
     String(propertyPath)
@@ -35,20 +35,22 @@ function TrackableObject(obj, config) {
     if (propertyPath) {
       propertyValue = getObjPropertyByPath(_obj, propertyPath);
     }
-    let value = JSON.parse(JSON.stringify(propertyValue));
+    let value = cloneDeep(propertyValue);
     const pathProperties = String(propertyPath).split(".");
 
     let setter = (newValue) => {
       const currentValue = getObjPropertyByPath(_objShadow, propertyPath);
+
       const fullPropertyPath = basePropertyPath
         ? `${basePropertyPath}.${propertyPath}`
         : propertyPath;
-      if (currentValue === newValue) {
+
+      if (JSON.stringify(currentValue) === JSON.stringify(newValue)) {
         changes.delete(fullPropertyPath);
       } else {
-        changes.set(fullPropertyPath, JSON.parse(JSON.stringify(newValue)));
+        changes.set(fullPropertyPath, cloneDeep(newValue));
       }
-      const clonedValue = JSON.parse(JSON.stringify(newValue));
+      const clonedValue = cloneDeep(newValue);
       if (typeof clonedValue === "object") {
         value = TrackableObject(clonedValue, {
           changes,
@@ -62,7 +64,12 @@ function TrackableObject(obj, config) {
     let getter = () => {
       return value;
     };
+    const lastProperty = pathProperties[pathProperties.length - 1];
     if (typeof propertyValue === "object") {
+      Object.defineProperty(_obj, lastProperty, {
+        get: getter,
+        set: setter,
+      });
       Object.keys(propertyValue).forEach((_key) => {
         overrideSetterAndGetter(
           _obj,
@@ -71,8 +78,6 @@ function TrackableObject(obj, config) {
       });
     } else {
       if (pathProperties.length > 1) {
-        const lastProperty = pathProperties[pathProperties.length - 1];
-
         propertyValue = getObjPropertyByPath(
           _obj,
           pathProperties.slice(0, pathProperties.length - 1).join(".")
@@ -108,6 +113,14 @@ function TrackableObject(obj, config) {
   defineShadowObject(obj);
 
   return obj;
+}
+
+function generateUniqueId() {
+  return `${TRACKABLE_PREFIX}${Math.round(Math.random() * 10000 * Date.now())}`;
+}
+
+function cloneDeep(obj) {
+  return JSON.parse(JSON.stringify(obj));
 }
 
 module.exports = {
