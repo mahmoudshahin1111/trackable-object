@@ -75,4 +75,18 @@ describe("TrackableObject", () => {
     trackablePerson.child.name = "child 101";
     expect(trackablePerson.t_changes().has("child.name")).toBe(true);
   });
+
+  it("should remove the changes and all the linked changes for same object if it's new value was the same ", () => {
+    const trackablePerson = TrackableObject(person);
+    trackablePerson.name = "person_name_updated_1";
+    trackablePerson.name = {
+      firstName: "person_name_first_name",
+      lastName: "person_name_last_name",
+    };
+    trackablePerson.name.firstName = "person_name_first_name_updated_1";
+
+    trackablePerson.name = "person 1";
+
+    expect(trackablePerson.t_changes().has("name.firstName")).toBe(false);
+  });
 });
