@@ -45,8 +45,8 @@ function TrackableObject(obj, config) {
         ? `${basePropertyPath}.${propertyPath}`
         : propertyPath;
 
-      if (JSON.stringify(currentValue) === JSON.stringify(newValue)) {
-        changes.delete(fullPropertyPath);
+      if (isEquals(currentValue, newValue)) {
+        removeObjectChanges(changes, fullPropertyPath);
       } else {
         changes.set(fullPropertyPath, cloneDeep(newValue));
       }
@@ -115,12 +115,31 @@ function TrackableObject(obj, config) {
   return obj;
 }
 
-function generateUniqueId() {
-  return `${TRACKABLE_PREFIX}${Math.round(Math.random() * 10000 * Date.now())}`;
-}
-
 function cloneDeep(obj) {
   return JSON.parse(JSON.stringify(obj));
+}
+
+function isEquals(obj1, obj2) {
+  return JSON.stringify(obj1) === JSON.stringify(obj2);
+}
+
+/**
+ * remove the object keys and it's sub properties keys if exists
+ * @param {Map<string,any>} changes
+ * @param {string} objPath
+ * @returns {Map<string,any>}
+ */
+function removeObjectChanges(changes, objPath) {
+  for (const changedKey of changes.keys()) {
+    if (
+      new RegExp(`${objPath}\.*`).test(changedKey) ||
+      changedKey === objPath
+    ) {
+      changes.delete(changedKey);
+    }
+  }
+
+  return changes;
 }
 
 module.exports = {
