@@ -34,6 +34,6 @@ Notes:
 
 |   Name   |                  Description                   |            Type             |
 | :------: | :--------------------------------------------: | :-------------------------: |
-|  t_changes   |              Get all the changed properties               |           Map<string,string>            |
+|  t_changes   |              Get all the changed properties               |           function():Map<string,string>            |
 
 
