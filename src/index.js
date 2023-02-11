@@ -1,4 +1,4 @@
-const {TrackableObject} = require('./trackable-object');
+const { TrackableObject } = require("./trackable-object");
 module.exports = {
-    TrackableObject
-}
+  create: (obj) => TrackableObject(obj),
+};

@@ -2,11 +2,8 @@
   "name": "trackable-object",
   "version": "1.0.0",
   "description": "track object changes deeply",
-  "source": "src/index.js",
-  "main": "dist/main.js",
   "scripts": {
-    "watch": "parcel watch",
-    "build": "parcel build",
+    "build": "webpack",
     "test": "jest"
   },
   "repository": {
@@ -27,6 +24,8 @@
   "homepage": "https://github.com/mahmoudshahin1111/trackable-object#readme",
   "devDependencies": {
     "jest": "^29.4.1",
-    "parcel": "^2.8.3"
-  }
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
+  },
+  "browserslist": "> 0.5%, last 2 versions, not dead"
 }
