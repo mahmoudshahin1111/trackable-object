@@ -1,8 +1,14 @@
+[![npm version](https://badge.fury.io/js/trackable-object.svg)](https://badge.fury.io/js/trackable-object)
+![example workflow](https://github.com/mahmoudshahin1111/trackable-object/actions/workflows/.github/workflows/test.yml/badge.svg)
+
 # Trackable Object ***(Up your object limits 🐢)***
 
 ![banner500x500](https://user-images.githubusercontent.com/46138189/218281811-09448382-b37e-4df4-92fd-3eaac852c177.png)
 
 Track object deeply 🔍 so you can check if it changed or any of it's nested properties had changed.
+you can use this in many cases:
+- check if the property changed before sending another request so will save the APIs cost.
+- you can warning the client before leaving regarding he can loss his changes.
 
 
 
