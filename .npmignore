@@ -1,0 +1,7 @@
+.github
+node_modules
+jest.config.js
+webpack.config.js
+files
+example
+package-lock.json

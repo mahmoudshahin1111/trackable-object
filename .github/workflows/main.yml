@@ -5,8 +5,13 @@ on:
     branches:
       - main
 jobs:
-  Explore-GitHub-Actions:
+  Deploy:
     runs-on: ubuntu-latest
     steps:
-      - run: npm i
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+      - run: npm ci
+      - run: npm run build --if-present
       - run: npm run test

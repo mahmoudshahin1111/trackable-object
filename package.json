@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "track object changes deeply",
   "scripts": {
-    "build": "webpack",
-    "test": "jest"
+    "test": "jest",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
