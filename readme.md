@@ -20,19 +20,22 @@ npm i trackable-object
 
 
 ## How it works?
+```html
+<script src="https://cdn.jsdelivr.net/npm/trackable-object@latest/build/trackable-object.js"></script>
 
-```js
+<script>
 
-const {TrackableObject} = require('../dist/main');
-
-const parentTO = TrackableObject({
+const parentTO = TrackableObject.create({
     name:'parent_name'
 });
 
 parentTO.name = 'parent_name_updated';
 
 console.log(trackableObject.t_changes()); //  Output: {name : 'parent_name_updated'}
+
 console.log(JSON.stringify(person)); // and you can serialize your object as well 
+
+</script>
 ```
 
 ## Use Cases:
