@@ -1,6 +1,6 @@
 {
   "name": "trackable-object",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "track object changes deeply",
   "scripts": {
     "test": "jest",
