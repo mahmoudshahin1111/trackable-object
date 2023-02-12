@@ -7,9 +7,22 @@
 
 Track object deeply 🔍 so you can check if it changed or any of it's nested properties had changed.
 
+## Installation
+### CDN
+```html
+<script src="https://cdn.jsdelivr.net/npm/trackable-object@latest/build/trackable-object.js"></script>
+```
+
+### NPM
+```bash
+npm i trackable-object
+```
+
+
 ## How it works?
 
 ```js
+
 const {TrackableObject} = require('../dist/main');
 
 const parentTO = TrackableObject({
