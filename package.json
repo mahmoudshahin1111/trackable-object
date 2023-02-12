@@ -1,10 +1,11 @@
 {
   "name": "trackable-object",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "track object changes deeply",
   "scripts": {
     "test": "jest",
-    "build": "webpack"
+    "build": "webpack",
+    "deploy":"npm run build & npm publish"
   },
   "repository": {
     "type": "git",
