@@ -1,5 +1,5 @@
 [![npm version](https://badge.fury.io/js/trackable-object.svg)](https://badge.fury.io/js/trackable-object)
-![example workflow](https://github.com/mahmoudshahin1111/trackable-object/actions/workflows/.github/workflows/test.yml/badge.svg)
+![example workflow](https://github.com/mahmoudshahin1111/trackable-object/.github/workflows/main.yml/badge.svg)
 
 # Trackable Object ***(Up your object limits 🐢)***
 
