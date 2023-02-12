@@ -1,4 +1,4 @@
-name: Releasing New Version Of TrackableObject
+name: Test
 run-name: ${{ github.actor }} Created A New Release
 on:
   release:
