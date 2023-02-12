@@ -13,8 +13,7 @@
   },
   "keywords": [
     "object",
-    "clone",
-    "track-object",
+    "trackable-object",
     "object-changed"
   ],
   "author": "codexline",

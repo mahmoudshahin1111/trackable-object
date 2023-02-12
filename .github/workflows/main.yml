@@ -1,5 +1,5 @@
 name: Releasing New Version Of TrackableObject
-run-name: ${{ github.actor }} New Release
+run-name: ${{ github.actor }} Created A New Release
 on:
   release:
     types: [created]
@@ -7,14 +7,13 @@ jobs:
   Deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
-          node-version: 14.x
+          node-version: 16.x
           registry-url: "https://registry.npmjs.org"
       - run: npm i
       - run: npm run test
-      - run: npm run build
       - run: npm run deploy
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
