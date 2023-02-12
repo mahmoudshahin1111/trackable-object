@@ -1,7 +1,7 @@
-name: Deploying TrackableObject
-run-name: ${{ github.actor }} merge branch with master
+name: Releasing New Version Of TrackableObject
+run-name: ${{ github.actor }} New Release
 on:
- release:
+  release:
     types: [created]
 jobs:
   Deploy:
@@ -11,7 +11,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14.x
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: "https://registry.npmjs.org"
       - run: npm i
       - run: npm run build
       - run: npm run test
