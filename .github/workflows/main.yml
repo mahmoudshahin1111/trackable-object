@@ -1,9 +1,8 @@
 name: Deploying TrackableObject
 run-name: ${{ github.actor }} merge branch with master
 on:
-  push:
-    branches:
-      - master
+ release:
+    types: [created]
 jobs:
   Deploy:
     runs-on: ubuntu-latest
